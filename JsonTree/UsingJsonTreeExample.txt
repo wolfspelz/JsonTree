@@ -1,0 +1,25 @@
+﻿using System;
+using JsonTree;
+
+namespace JsonTreeDemo
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      const string data = "[ \"first\", { \"aString\": \"Hello World\", \"aNumber\": 42 } ]";
+      var json = new JsonTree.Node(data);
+
+      // Deserialize
+      var aNumber = json.List[1].Dictionary["aNumber"].Int;
+      // or
+      var aNumber2 = json.Array[1].Object["aNumber"].Int;
+
+      // Serialize
+      var serialized = json.ToJson();
+
+      // Serialize formatted
+      var formatted = json.ToJson(new JsonTree.Serializer.Options(bFormatted: true, bWrapped: true));
+    }
+  }
+}
