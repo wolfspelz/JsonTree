@@ -1,3 +1,4 @@
-﻿C:\Heiner\JsonTree\JsonTree> ..\.nuget\nuget pack JsonTree.csproj -Prop Configuration=Release
-C:\Heiner\JsonTree\JsonTree> ..\.nuget\nuget push JsonTree.1.0.2.0.nupkg
+﻿cd C:\Heiner\JsonTree\JsonTree
+..\.nuget\nuget pack JsonTree.csproj -Prop Configuration=Release
+..\.nuget\nuget push JsonTree.1.0.3.0.nupkg
 
