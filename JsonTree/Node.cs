@@ -100,8 +100,8 @@ namespace JsonTree
           return (double) Int;
         } else if (IsString) {
           double result = 0.0;
-          if (Double.TryParse(String, out result)) {
-            return Double.Parse(String);
+          if (Double.TryParse(String, NumberStyles.Any, CultureInfo.InvariantCulture, out result)) {
+              return Double.Parse(String, CultureInfo.InvariantCulture);
           }
         }
         if (_throwExceptionIfConversionFails) {

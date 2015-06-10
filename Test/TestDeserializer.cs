@@ -19,46 +19,53 @@ namespace Test
     [TestMethod]
     public void DeserializeBasicTypes()
     {
-      Assert.IsTrue(new JsonTree.Node("").IsEmpty);
-      Assert.IsTrue(new JsonTree.Node("41").IsInt);
-      Assert.IsTrue(new JsonTree.Node("true").IsBool);
-      Assert.IsTrue(new JsonTree.Node("false").IsBool);
-      Assert.IsTrue(new JsonTree.Node("'41'").IsString);
-      Assert.IsTrue(new JsonTree.Node("41000000000").IsInt);
-      Assert.IsTrue(new JsonTree.Node("3.14159265358979323").IsFloat);
-      // Assert.IsTrue(new JsonTree.Node(".42").IsFloat); // not on mono
-      Assert.IsTrue(new JsonTree.Node("{}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{a:41}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{a:'41'}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{a:41000000000}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{a:3.1415927}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{a:3.14159265358979323}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{'a':41}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{'a':'41'}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("{\"a\":\"41\"}").IsDictionary);
-      Assert.IsTrue(new JsonTree.Node("[]").IsList);
-      Assert.IsTrue(new JsonTree.Node("['a']").IsList);
-      Assert.IsTrue(new JsonTree.Node("['a','b']").IsList);
-      Assert.IsTrue(new JsonTree.Node("[41,42]").IsList);
-      Assert.IsTrue(new JsonTree.Node("['a',42]").IsList);
-      Assert.AreEqual(new JsonTree.Node("['a',42]").List.First().String, "a");
-      Assert.AreEqual(new JsonTree.Node("['a',42]").List.ElementAt(1).Int, 42);
-      Assert.IsTrue(new JsonTree.Node("{a:41}").Dictionary.First().Value.IsInt);
-      Assert.IsTrue(new JsonTree.Node("{a:'41'}").Dictionary.First().Value.IsString);
-      Assert.IsTrue(new JsonTree.Node("{a:41000000000}").Dictionary.First().Value.IsInt);
-      Assert.IsTrue(new JsonTree.Node("{a:3.1415927}").Dictionary.First().Value.IsFloat);
-      Assert.IsTrue(new JsonTree.Node("{a:3.14159265358979323}").Dictionary.First().Value.IsFloat);
-      //Assert.IsTrue(new JsonTree.Node("{a:.42}").Map.First().Value.IsFloat); // not on mono
-      Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Int, 41);
-      Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Float, 41);
-      Assert.AreEqual(new JsonTree.Node("{a:'41'}").Dictionary.First().Value.String, "41");
-      Assert.AreEqual(new JsonTree.Node("{a:41000000000}").Dictionary.First().Value.Int, 41000000000);
-      Assert.AreEqual(new JsonTree.Node("{a:3.1415927}").Dictionary.First().Value.Float, 3.1415927);
-      Assert.AreEqual(new JsonTree.Node("{a:3.1415927}").Dictionary["a"].Float, 3.1415927);
-      Assert.AreEqual(new JsonTree.Node("{a:3.14159265358979323}").Dictionary.First().Value.Float, 3.14159265358979323);
-      Assert.AreEqual(new JsonTree.Node("41").String, "41");
-      Assert.AreEqual(new JsonTree.Node("41000000000").String, "41000000000");
-      Assert.AreEqual(new JsonTree.Node("3.14159265358979").String, "3.14159265358979");
+        Assert.IsTrue(new JsonTree.Node("").IsEmpty);
+        Assert.IsTrue(new JsonTree.Node("41").IsInt);
+        Assert.IsTrue(new JsonTree.Node("true").IsBool);
+        Assert.IsTrue(new JsonTree.Node("false").IsBool);
+        Assert.IsTrue(new JsonTree.Node("'41'").IsString);
+        Assert.IsTrue(new JsonTree.Node("41000000000").IsInt);
+        Assert.IsTrue(new JsonTree.Node("3.14159265358979323").IsFloat);
+        // Assert.IsTrue(new JsonTree.Node(".42").IsFloat); // not on mono
+        Assert.IsTrue(new JsonTree.Node("{}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{a:41}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{a:'41'}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{a:41000000000}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{a:3.1415927}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{a:3.14159265358979323}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{'a':41}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{'a':'41'}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("{\"a\":\"41\"}").IsDictionary);
+        Assert.IsTrue(new JsonTree.Node("[]").IsList);
+        Assert.IsTrue(new JsonTree.Node("['a']").IsList);
+        Assert.IsTrue(new JsonTree.Node("['a','b']").IsList);
+        Assert.IsTrue(new JsonTree.Node("[41,42]").IsList);
+        Assert.IsTrue(new JsonTree.Node("['a',42]").IsList);
+        Assert.AreEqual(new JsonTree.Node("['a',42]").List.First().String, "a");
+        Assert.AreEqual(new JsonTree.Node("['a',42]").List.ElementAt(1).Int, 42);
+        Assert.IsTrue(new JsonTree.Node("{a:41}").Dictionary.First().Value.IsInt);
+        Assert.IsTrue(new JsonTree.Node("{a:'41'}").Dictionary.First().Value.IsString);
+        Assert.IsTrue(new JsonTree.Node("{a:41000000000}").Dictionary.First().Value.IsInt);
+        Assert.IsTrue(new JsonTree.Node("{a:3.1415927}").Dictionary.First().Value.IsFloat);
+        Assert.IsTrue(new JsonTree.Node("{a:3.14159265358979323}").Dictionary.First().Value.IsFloat);
+        //Assert.IsTrue(new JsonTree.Node("{a:.42}").Map.First().Value.IsFloat); // not on mono
+        Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Int, 41);
+        Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Float, 41);
+        Assert.AreEqual(new JsonTree.Node("{a:'41'}").Dictionary.First().Value.String, "41");
+        Assert.AreEqual(new JsonTree.Node("{a:41000000000}").Dictionary.First().Value.Int, 41000000000);
+        Assert.AreEqual(new JsonTree.Node("{a:3.1415927}").Dictionary.First().Value.Float, 3.1415927);
+        Assert.AreEqual(new JsonTree.Node("{a:3.1415927}").Dictionary["a"].Float, 3.1415927);
+        Assert.AreEqual(new JsonTree.Node("{a:3.14159265358979323}").Dictionary.First().Value.Float, 3.14159265358979323);
+        Assert.AreEqual(new JsonTree.Node("41").String, "41");
+        Assert.AreEqual(new JsonTree.Node("41000000000").String, "41000000000");
+        Assert.AreEqual(new JsonTree.Node("3.14159265358979").String, "3.14159265358979");
+        Assert.AreEqual(new JsonTree.Node("3.14159265358979").Float, 3.14159265358979);
+    }
+
+    [TestMethod]
+    public void FloatFromStringWithInvariantCulture()
+    {
+        Assert.AreEqual(new JsonTree.Node("{\"a\":\"3.14159265358979323\"}").Dictionary.First().Value.Float, 3.14159265358979323);
     }
 
     [TestMethod]
