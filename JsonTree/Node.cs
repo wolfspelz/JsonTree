@@ -20,16 +20,16 @@ namespace JsonTree
         public bool IsString { get { return _type == Type.String; } }
         public bool IsFloat { get { return _type == Type.Float; } }
 
-        public List<Node> Array { get { return IsList ? (List<Node>)Value : new List<Node>(); } }
-        public Dictionary<string, Node> Object { get { return IsDictionary ? (Dictionary<string, Node>)Value : new Dictionary<string, Node>(); } }
+        public List<Node> AsList { get { return IsList ? (List<Node>)Value : new List<Node>(); } }
+        public Dictionary<string, Node> AsDictionary { get { return IsDictionary ? (Dictionary<string, Node>)Value : new Dictionary<string, Node>(); } }
 
         // Aliases
-        public List<Node> List { get { return Array; } }
-        public Dictionary<string, Node> Dictionary { get { return Object; } }
-        public List<Node> AsArray { get { return Array; } }
-        public List<Node> AsList { get { return Array; } }
-        public Dictionary<string, Node> AsObject { get { return Object; } }
-        public Dictionary<string, Node> AsDictionary { get { return Object; } }
+        public List<Node> List { get { return AsList; } }
+        public Dictionary<string, Node> Dictionary { get { return AsDictionary; } }
+        public List<Node> AsArray { get { return AsList; } }
+        public List<Node> Array { get { return AsList; } }
+        public Dictionary<string, Node> AsObject { get { return AsDictionary; } }
+        public Dictionary<string, Node> Object { get { return AsDictionary; } }
         public long AsInt { get { return Int; } }
         public bool AsBool { get { return Bool; } }
         public string AsString { get { return String; } }
@@ -121,17 +121,34 @@ namespace JsonTree
             }
         }
 
-        public Node(Type type)
+        public Node(Type type, object value = null)
         {
             _type = type;
 
-            switch (type) {
-                case Type.List: Value = new List<Node>(); break;
-                case Type.Dictionary: Value = new Dictionary<string, Node>(); break;
-                case Type.Int: Value = 0; break;
-                case Type.Bool: Value = false; break;
-                case Type.String: Value = ""; break;
-                case Type.Float: Value = 0.0; break;
+            if (value != null) {
+                switch (type) {
+                    case Type.Int: Value = Convert.ToInt64(value); break;
+                    case Type.Float: Value = Convert.ToDouble(value); break;
+                    default: Value = value; break;
+                }
+            } else {
+                switch (type) {
+                    case Type.List: Value = new List<Node>(); break;
+                    case Type.Dictionary: Value = new Dictionary<string, Node>(); break;
+                    case Type.Int: Value = 0; break;
+                    case Type.Bool: Value = false; break;
+                    case Type.String: Value = ""; break;
+                    case Type.Float: Value = 0.0; break;
+                }
+            }
+        }
+        public Node(Dictionary<string, string> dict)
+        {
+            _type = Type.Dictionary;
+            Value = new Dictionary<string, Node>();
+
+            foreach (var pair in dict) {
+                AsDictionary.Add(pair.Key, new JsonTree.Node(JsonTree.Node.Type.String, pair.Value));
             }
         }
 
