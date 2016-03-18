@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("JsonTree")]
-[assembly: AssemblyDescription("Inspect values in JSON strings with single line expressions and plain old CLR objects without using foreach/if to extract values from JSON. Extract the 42 from [\"first\",{\"aString\":\"HelloWorld\",\"aNumber\":42}] with C# expression: json.Array[1].Object[\"aNumber\"].Int")]
+[assembly: AssemblyDescription("Inspect values in JSON strings with single line expressions and plain old CLR objects without using foreach/if to extract values from JSON. Extract the 42 from [\"first\",{\"aString\":\"HelloWorld\",\"aNumber\":42}] with C# expression: json.AsList[1].AsDictionary[\"aNumber\"].AsInt")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Heiner Wolf")]
 [assembly: AssemblyProduct("JsonTree")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.7.0")]
-[assembly: AssemblyFileVersion("1.0.7.0")]
+[assembly: AssemblyVersion("1.0.8.0")]
+[assembly: AssemblyFileVersion("1.0.8.0")]

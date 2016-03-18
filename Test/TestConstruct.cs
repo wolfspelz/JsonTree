@@ -28,19 +28,6 @@ namespace Test
         }
 
         [TestMethod]
-        public void DictionaryStringStringContructor()
-        {
-            // Arrange
-            // Act
-            var node = new JsonTree.Node(new Dictionary<string, string> { {"a", "fourtytwo" }, { "b", "42" }});
-            string sJson = node.ToJson();
-
-            // Assert
-            Assert.AreEqual(new JsonTree.Node(sJson).Dictionary["a"].String, "fourtytwo");
-            Assert.AreEqual(new JsonTree.Node(sJson).Dictionary["b"].String, "42");
-        }
-
-        [TestMethod]
         public void StringConstructor()
         {
             var root = new JsonTree.Node("42");
@@ -79,6 +66,8 @@ namespace Test
             Assert.IsTrue(new JsonTree.Node("{a:3.1415927}").Dictionary.First().Value.IsFloat);
             Assert.IsTrue(new JsonTree.Node("{a:3.14159265358979323}").Dictionary.First().Value.IsFloat);
             //Assert.IsTrue(new JsonTree.Node("{a:.42}").Map.First().Value.IsFloat); // not on mono
+            Assert.AreEqual("true", new JsonTree.Node("{a:true}").AsDictionary["a"].String);
+            Assert.AreEqual("false", new JsonTree.Node("{a:false}").AsDictionary["a"].String);
             Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Int, 41);
             Assert.AreEqual(new JsonTree.Node("{a:41}").Dictionary.First().Value.Float, 41);
             Assert.AreEqual(new JsonTree.Node("{a:'41'}").Dictionary.First().Value.String, "41");

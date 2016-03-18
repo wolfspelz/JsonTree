@@ -90,6 +90,8 @@ namespace JsonTree
                     return Int.ToString(CultureInfo.InvariantCulture);
                 } else if (IsFloat) {
                     return String.Format(CultureInfo.InvariantCulture, "{0}", (double)Value);
+                } else if (IsBool) {
+                    return Bool ? "true" : "false";
                 }
                 if (_throwExceptionIfConversionFails) {
                     throw new Exception("Wrong node type: trying to read " + Type.String.ToString() + " from " + _type.ToString());
@@ -140,15 +142,6 @@ namespace JsonTree
                     case Type.String: Value = ""; break;
                     case Type.Float: Value = 0.0; break;
                 }
-            }
-        }
-        public Node(Dictionary<string, string> dict)
-        {
-            _type = Type.Dictionary;
-            Value = new Dictionary<string, Node>();
-
-            foreach (var pair in dict) {
-                AsDictionary.Add(pair.Key, new JsonTree.Node(JsonTree.Node.Type.String, pair.Value));
             }
         }
 

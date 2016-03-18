@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JsonTree;
+using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test
@@ -18,6 +19,63 @@ namespace Test
 
             // Act
             string sOut = root.ToJson();
+
+            // Assert
+            Assert.IsFalse(String.IsNullOrEmpty(sOut));
+        }
+
+        [TestMethod]
+        public void ArrayOfDictionary_ToJson()
+        {
+            // Arrange
+            const string sIn = "[ { 'param': { 'name': 'defaultsequence', 'value': 'idle' }}, { 'sequence': { 'group': 'idle', 'name': 'still', 'type': 'status', 'probability': '1000', 'in': 'standard', 'out': 'standard', 'src': 'idle.gif' }} ]";
+            var root = new JsonTree.Node(sIn);
+
+            // Act
+            string sOut = root.ToJson();
+
+            // Assert
+            Assert.IsFalse(String.IsNullOrEmpty(sOut));
+        }
+
+        [TestMethod]
+        public void AnimationsXml_ToJson()
+        {
+            // Arrange
+            var xml = "<config xmlns='http://schema.bluehands.de/character-config' version='1.0'> <param name='defaultsequence' value='idle'/> <sequence group='idle' name='still' type='status' probability='1000' in='standard' out='standard'><animation src='idle.gif'/></sequence> <sequence group='idle' name='idle1' type='status' probability='2' in='standard' out='standard'><animation src='idle-1.gif'/></sequence> <sequence group='idle' name='idle2' type='status' probability='5' in='standard' out='standard'><animation src='idle-2.gif'/></sequence> <sequence group='idle' name='idle3' type='status' probability='5' in='standard' out='standard'><animation src='idle-3.gif'/></sequence> <sequence group='idle' name='idle4' type='status' probability='1' in='standard' out='standard'><animation src='idle-4.gif'/></sequence> <sequence group='moveleft' name='moveleft' type='basic' probability='1' in='moveleft' out='moveleft'><animation dx='-55' dy='0' src='walk-l.gif'/></sequence> <sequence group='moveright' name='moveright' type='basic' probability='1' in='moveright' out='moveright'><animation dx='55' dy='0' src='walk-r.gif'/></sequence> <sequence group='chat' name='chat1' type='basic' probability='1000' in='standard' out='standard'><animation src='chat.gif'/></sequence> <sequence group='chat' name='chat2' type='basic' probability='100' in='standard' out='standard'><animation src='chat-2.gif'/></sequence> <sequence group='wave' name='wave' type='emote' probability='1000' in='standard' out='standard'><animation src='wave.gif'/></sequence> <sequence group='kiss' name='kiss' type='emote' probability='1000' in='standard' out='standard'><animation src='kiss.gif'/></sequence> <sequence group='cheer' name='cheer' type='emote' probability='1000' in='standard' out='standard'><animation src='cheer.gif'/></sequence> <sequence group='agree' name='agree' type='emote' probability='1000' in='standard' out='standard'><animation src='agree.gif'/></sequence> <sequence group='deny' name='deny' type='emote' probability='1000' in='standard' out='standard'><animation src='disagree.gif'/></sequence> <sequence group='clap' name='clap' type='emote' probability='1000' in='standard' out='standard'><animation src='clap.gif'/></sequence> <sequence group='dance' name='dance' type='emote' probability='1000' in='standard' out='standard'><animation src='dance.gif'/></sequence> <sequence group='yawn' name='yawn' type='emote' probability='1000' in='standard' out='standard'><animation src='yawn.gif'/></sequence> <sequence group='angry' name='angry' type='emote' probability='1000' in='standard' out='standard'><animation src='angry.gif'/></sequence> <sequence group='laugh' name='laugh' type='emote' probability='1000' in='standard' out='standard'><animation src='laugh.gif'/></sequence> <sequence group='sleep' name='sleep' type='status' probability='1000' in='standard' out='standard'><animation src='idle.gif'/></sequence> </config>";
+
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
+            var nodes = doc.DocumentElement.ChildNodes;
+
+            var json = new JsonTree.Node(JsonTree.Node.Type.List);
+
+            var keys = new Dictionary<string, List<string>> {
+                { "param", new List<string> { "name", "value" }},
+                { "sequence", new List<string> { "group", "name", "type", "probability", "in", "out" }},
+            };
+
+            foreach (XmlNode node in nodes) {
+                if (keys.ContainsKey(node.Name)) {
+                    var dict = new JsonTree.Node(JsonTree.Node.Type.Dictionary);
+                    foreach (var key in keys[node.Name]) {
+                        var attr = node.Attributes.GetNamedItem(key);
+                        if (attr != null) {
+                            dict.AsDictionary.Add(attr.Name, new JsonTree.Node(JsonTree.Node.Type.String, attr.Value));
+                        }
+                    }
+                    if (node.Name == "sequence") {
+                        var src = node.FirstChild.Attributes["src"].Value;
+                        dict.AsDictionary.Add("src", new JsonTree.Node(JsonTree.Node.Type.String, src));
+                    }
+                    var item = new JsonTree.Node(JsonTree.Node.Type.Dictionary);
+                    item.AsDictionary.Add(node.Name, dict);
+                    json.AsArray.Add(item);
+                }
+            }
+
+            // Act
+            var sOut = json.ToJson();
 
             // Assert
             Assert.IsFalse(String.IsNullOrEmpty(sOut));
