@@ -2,3 +2,4 @@ cd C:\Heiner\github-JsonTree\JsonTree
 ..\.nuget\nuget pack JsonTree.csproj -Prop Configuration=Release
 ..\.nuget\nuget push JsonTree.1.0.8.0.nupkg
 
+REM
