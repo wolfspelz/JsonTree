@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JsonTree;
 
 namespace Test
 {
     [TestClass]
-    public class TestStyles
+    public class NotationsTest
     {
         [TestMethod]
         public void Skalars()
@@ -13,7 +13,7 @@ namespace Test
             const string sIn = "{ a: '41', b: 42, c: true, d: 3.14 }";
 
             // Act
-            var root = new JsonTree.Node(sIn);
+            var root = new Node(sIn);
 
             // Assert
             Assert.AreEqual(root.AsDictionary["a"].String, "41");
@@ -33,7 +33,7 @@ namespace Test
             const string sIn = "{ a: 'a', b: [ 'b0', 'b1' ] }";
 
             // Act
-            var root = new JsonTree.Node(sIn);
+            var root = new Node(sIn);
 
             // Assert
             Assert.AreEqual(root.Object["b"].Array[0].String, "b0");
