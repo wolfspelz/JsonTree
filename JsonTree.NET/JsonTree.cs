@@ -1,11 +1,33 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace JsonTree
 {
+    public class Dictionary : Dictionary<string, Node>
+    {
+        public Node Get(string key)
+        {
+            if (ContainsKey(key)) {
+                return this[key];
+            }
+            return new Node(Node.Type.Empty);
+        }
+    }
+
+    public class List : List<Node>
+    {
+        public Node Get(int index)
+        {
+            if (index < Count) {
+                return this[index];
+            }
+            return new Node(Node.Type.Empty);
+        }
+    }
+
     public class Node
     {
         public enum Type { Empty, List, Dictionary, Int, Bool, String, Float }
@@ -22,17 +44,17 @@ namespace JsonTree
         public bool IsString { get { return _type == Type.String; } }
         public bool IsFloat { get { return _type == Type.Float; } }
 
-        public List<Node> AsList { get { return IsList ? (List<Node>)Value : new List<Node>(); } }
-        public Dictionary<string, Node> AsDictionary { get { return IsDictionary ? (Dictionary<string, Node>)Value : new Dictionary<string, Node>(); } }
+        public List AsList { get { return IsList ? (List)Value : new List(); } }
+        public Dictionary AsDictionary { get { return IsDictionary ? (Dictionary)Value : new Dictionary(); } }
 
         // Aliases
-        public List<Node> List { get { return AsList; } }
-        public Dictionary<string, Node> Dictionary { get { return AsDictionary; } }
-        public List<Node> AsArray { get { return AsList; } }
+        public List List { get { return AsList; } }
+        public Dictionary Dictionary { get { return AsDictionary; } }
+        public List AsArray { get { return AsList; } }
 
-        public List<Node> Array { get { return AsList; } }
-        public Dictionary<string, Node> AsObject { get { return AsDictionary; } }
-        public Dictionary<string, Node> Object { get { return AsDictionary; } }
+        public List Array { get { return AsList; } }
+        public Dictionary AsObject { get { return AsDictionary; } }
+        public Dictionary Object { get { return AsDictionary; } }
         public long AsInt { get { return Int; } }
         public bool AsBool { get { return Bool; } }
         public string AsString { get { return String; } }
@@ -134,8 +156,8 @@ namespace JsonTree
                 }
             } else {
                 switch (type) {
-                    case Type.List: Value = new List<Node>(); break;
-                    case Type.Dictionary: Value = new Dictionary<string, Node>(); break;
+                    case Type.List: Value = new List(); break;
+                    case Type.Dictionary: Value = new Dictionary(); break;
                     case Type.Int: Value = 0; break;
                     case Type.Bool: Value = false; break;
                     case Type.String: Value = ""; break;

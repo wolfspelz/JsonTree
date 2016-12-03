@@ -62,6 +62,20 @@ namespace Test
             Assert.AreEqual("http://www.wolfspelz.de/", new Node("'http://www.wolfspelz.de/'").String);
         }
 
+        [TestMethod]
+        public void EmptyNodeForMissingDictionaryKey()
+        {
+            Assert.AreEqual(41, new Node("{a:41}").Dictionary.Get("a").Int);
+            Assert.AreEqual(0, new Node("{a:41}").Dictionary.Get("b").Int);
+        }
+
+        [TestMethod]
+        public void EmptyNodeForMissingListIndex()
+        {
+            Assert.AreEqual(41, new Node("[41,42]").List.Get(0).Int);
+            Assert.AreEqual(0, new Node("[41,42]").List.Get(2).Int);
+        }
+
         //[TestMethod]
         //public void Date()
         //{

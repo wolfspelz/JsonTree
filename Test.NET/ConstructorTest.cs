@@ -15,7 +15,7 @@ namespace Test
             var node = new Node(Node.Type.Dictionary);
             node.AsDictionary.Add("a", new Node(Node.Type.String, "fourtytwo"));
             node.AsDictionary.Add("b", new Node(Node.Type.Int, 42));
-            node.AsDictionary.Add("c", new Node(Node.Type.List, new List<Node> { new Node(Node.Type.Bool, true), new Node(Node.Type.Float, 3.14) }));
+            node.AsDictionary.Add("c", new Node(Node.Type.List, new List { new Node(Node.Type.Bool, true), new Node(Node.Type.Float, 3.14) }));
             string sJson = node.ToJson();
 
             // Assert
